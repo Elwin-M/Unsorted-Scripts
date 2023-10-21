@@ -1,0 +1,7 @@
+Get-ChildItem C:\Temp -Directory `
+| Select-Object @{n='FullName';e={$_.FullName}},@{n='SubFolderCount';e={(Get-ChildItem $_.FullName -Recurse -Directory).Count}} `
+| Format-Table -Autosize;
+
+Get-ChildItem `
+| Select-Object @{n='FullName';e={$_.FullName}},@{n='SubFolderCount';e={(Get-ChildItem $_.FullName -Recurse -Depth 0 -Directory).Count}} `
+| Format-Table -Autosize;
