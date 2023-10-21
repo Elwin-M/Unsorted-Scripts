@@ -1,5 +1,5 @@
-$basePath = ""
-$favsPath = ""
+$basePath = Read-Host -Prompt "Enter base path that contains all the files"
+$favsPath = Read-Host -Prompt "Enter favourites path where the hardlinks will be created"
 
 # Recursively search the $basePath for all folders
 Get-ChildItem $basePath -Recurse -Directory | ForEach-Object {
