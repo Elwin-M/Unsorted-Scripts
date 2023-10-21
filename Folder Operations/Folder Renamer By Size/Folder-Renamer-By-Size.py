@@ -121,24 +121,31 @@ def main():
     add_delete = args.add
     leading_trailing = None
 
-    if args.leading:
-        leading_trailing = "leading"
-    elif args.trailing:
-        leading_trailing = "trailing"
-    else:
-        # If neither --leading nor --trailing is provided, assume --trailing
-        leading_trailing = "trailing"
+    print(f"\nSource directory: {folder_name}")
 
-    if args.add and args.delete:
-        print("Error: cannot add and delete folder size information at the same time")
-        return
-    elif args.add or not args.add and not args.delete:
-        # If --add is provided or neither --add nor --delete is provided, assume --add
-        add_folder_size(folder_name, leading_trailing)
-    elif args.delete:
-        delete_folder_size(folder_name)
+    confirmation = input("Do you want to proceed? (yes or enter to confirm, any other key to cancel): ")
+    if confirmation.lower() in ["yes", "y", ""]:
+        if args.leading:
+            leading_trailing = "leading"
+        elif args.trailing:
+            leading_trailing = "trailing"
+        else:
+            # If neither --leading nor --trailing is provided, assume --trailing
+            leading_trailing = "trailing"
+
+        if args.add and args.delete:
+            print("Error: cannot add and delete folder size information at the same time")
+            return
+        elif args.add or not args.add and not args.delete:
+            # If --add is provided or neither --add nor --delete is provided, assume --add
+            add_folder_size(folder_name, leading_trailing)
+        elif args.delete:
+            delete_folder_size(folder_name)
+        else:
+            print("Error: must specify either --add or --delete")
+        
     else:
-        print("Error: must specify either --add or --delete")
+        print("Script execution aborted.")
 
 if __name__ == "__main__":
     main()
