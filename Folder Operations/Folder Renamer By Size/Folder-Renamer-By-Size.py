@@ -22,7 +22,7 @@ def add_folder_size(directory, position='trailing'):
             # Calculate the size of the folder
             #folder_size = sum(os.path.getsize(os.path.join(folder_path, file)) for file in os.listdir(folder_path))
             folder_size = get_folder_size(folder_path)
-            size_str = get_folder_size_str(folder_size)
+            size_str = get_folder_size_str(folder_size, position)
 
             # Regular expressions for detecting if the folder name has a leading or trailing size
             leading_pattern = r'^(\([\d.]+ (B|KB|MB|GB|TB)\)) (.*)$'
@@ -71,24 +71,42 @@ def add_folder_size(directory, position='trailing'):
             os.rename(folder_path, os.path.join(directory, new_folder))
 
 
-def get_folder_size_str(folder_size):
+def get_folder_size_str(folder_size, position):
     if folder_size < 1000:
-        return f"{folder_size} B"
+        if position == 'leading':
+            return f"00 {folder_size} B"
+        else:
+            return f"{folder_size} B"
     elif folder_size < 1000000:
         folder_size = round(folder_size / 1000)
-        return f"{folder_size} KB"
+        if position == 'leading':
+            return f"01 {folder_size} KB"
+        else:
+            return f"{folder_size} KB"
     elif folder_size < 1000000000:
         folder_size = round(folder_size / 1000000)
-        return f"{folder_size} MB"
+        if position == 'leading':
+            return f"02 {folder_size} MB"
+        else:
+            return f"{folder_size} MB"
     elif folder_size < 10000000000:
         folder_size = round(folder_size / 1000000000, 2)
-        return f"{folder_size} GB"
+        if position == 'leading':
+            return f"03 {folder_size} GB"
+        else:
+            return f"{folder_size} GB"
     elif folder_size < 1000000000000:
         folder_size = round(folder_size / 1000000000, 1)
-        return f"{folder_size} GB"
+        if position == 'leading':
+            return f"03 {folder_size} GB"
+        else:
+            return f"{folder_size} GB"
     else:
         folder_size = round(folder_size / 1000000000000)
-        return f"{folder_size} TB"
+        if position == 'leading':
+            return f"04 {folder_size} TB"
+        else:
+            return f"{folder_size} TB"
 
 
 # Function to remove folder size information from the folder names in a directory
@@ -100,7 +118,7 @@ def delete_folder_size(directory):
         # Check if the folder is a directory
         if os.path.isdir(folder_path):
             # Remove the folder size information from the folder name
-            new_folder = re.sub(r'^(\([\d.]+ (B|KB|MB|GB|TB)\))+ (.*)$', r'\3', folder)
+            new_folder = re.sub(r'^(\([\d .]+ (B|KB|MB|GB|TB)\))+ (.*)$', r'\3', folder)
             new_folder = re.sub(r'^(.*) (\([\d.]+ (B|KB|MB|GB|TB)\))+(.*)$', r'\1\4', new_folder)
             # Check if the folder name was modified
             if new_folder != folder:
