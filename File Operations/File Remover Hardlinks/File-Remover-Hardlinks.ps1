@@ -18,7 +18,7 @@ foreach ($file in $files) {
         Write-Host "Removed hard link: $($file.FullName) `n"
         $hardlinkCount++
     } else {
-        Write-Host "File: $($file.FullName) is not Hard Link) `n"
+        Write-Host "File: $($file.FullName) is not a Hard Link) `n"
         $regularCount++
     }
 }
