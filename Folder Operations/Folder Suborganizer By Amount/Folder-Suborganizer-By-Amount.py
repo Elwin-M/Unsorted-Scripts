@@ -23,7 +23,7 @@ def create_subdirectories(src_dir, files_per_directory):
         end = (i + 1) * files_per_directory
         files_in_range = files[start:end]
 
-        subdirectory_name = f"{parent_dir} [{i * files_per_directory + 1:03d}-{min((i + 1) * files_per_directory, total_files):03d}]"
+        subdirectory_name = f"{parent_dir} ({i * files_per_directory + 1:03d}-{min((i + 1) * files_per_directory, total_files):03d})"
         subdirectory_path = os.path.join(src_dir, subdirectory_name)
 
         os.makedirs(subdirectory_path, exist_ok=True)
